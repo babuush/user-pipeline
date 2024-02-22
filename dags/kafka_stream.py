@@ -12,13 +12,16 @@ def stream_data():
     import requests
 
     res = requests.get("https://randomuser.me/api/")
+    print(res.json())
 
 with DAG('user_automation', 
          default_args=defualt_args,
-         schedule_interval='@daily',
+         schedule='@daily',
          catchup=False) as dag:
     
     streaming_task = PythonOperator(
         task_id='stream_data_from_api',
         python_callable=stream_data
     )
+
+stream_data()
