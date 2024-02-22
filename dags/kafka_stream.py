@@ -7,12 +7,22 @@ defualt_args ={
     'start_date': datetime(2023, 9, 3, 10, 00)
 }
 
-def stream_data():
-    import json
+def get_data():
     import requests
 
     res = requests.get("https://randomuser.me/api/")
-    print(res.json())
+    res = res.json()
+    res = res['results'][0]
+    return res
+def format_data():
+    return
+def stream_data():
+    import json
+    
+    
+    
+    
+    print(json.dumps(res, indent=3))
 
 with DAG('user_automation', 
          default_args=defualt_args,
