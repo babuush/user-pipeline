@@ -2,7 +2,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
-defualt_args ={
+default_args ={
     'owner': 'babuush',
     'start_date': datetime(2023, 9, 3, 10, 00)
 }
@@ -43,19 +43,19 @@ def stream_data():
     current_time = time.time()
 
     while True:
-        if time.time() > current_time + 60:
+        if time.time() > current_time + 60: #1 minute
             break
         try:
             res = get_data()
-            res = format_data(res) 
+            res = format_data(res)
             producer.send('users_created', json.dumps(res).encode('utf-8'))
-        
+            
         except Exception as e:
-            logging.error(f"Error: {e}")
+            logging.error(f'An error occured: {e}')
             continue
                              
 with DAG('user_automation', 
-         default_args=defualt_args,
+         default_args=default_args,
          schedule='@daily',
          catchup=False) as dag:
     
