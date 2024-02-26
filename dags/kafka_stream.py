@@ -40,15 +40,15 @@ def stream_data():
     import logging
 
     producer = KafkaProducer(bootstrap_servers=['broker:29092'], max_block_ms=5000)
-
     current_time = time.time()
+
     while True:
         if time.time() > current_time + 60:
             break
         try:
             res = get_data()
             res = format_data(res) 
-            producer.send('user_created', json.dumps(res).encode('utf-8'))
+            producer.send('users_created', json.dumps(res).encode('utf-8'))
         
         except Exception as e:
             logging.error(f"Error: {e}")
