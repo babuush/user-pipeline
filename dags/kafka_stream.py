@@ -42,7 +42,7 @@ def stream_data():
     res = format_data(res)
     # print(json.dumps(res, indent=3))
 
-    producer = KafkaProducer(bootstrap_servers=['localhost:9092'], max_block_ms=5000)
+    producer = KafkaProducer(bootstrap_servers=['broker:29092'], max_block_ms=5000)
     producer.send('user_created', json.dumps(res).encode('utf-8'))
                              
 with DAG('user_automation', 
@@ -55,4 +55,3 @@ with DAG('user_automation',
         python_callable=stream_data
     )
 
-stream_data()
